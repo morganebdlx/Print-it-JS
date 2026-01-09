@@ -74,4 +74,3 @@ function changeSlide(direction) {
   bannerText.innerHTML = slides[currentSlide].tagLine;
 
 }
-
