@@ -21,13 +21,14 @@ const slides = [
 
 let arrowRight = document.querySelector('.arrow_right');
 let arrowLeft = document.querySelector('.arrow_left');
-let bannerImage = document.querySelector('#banner img');
+let bannerImage = document.getElementById('banner-img');
 let bannerText = document.querySelector('#banner p');
 let bannerDots = document.querySelector('.dots');
 
+let currentSlide = 0;
 
-// Dots section : pour chaque slide on crée et on ajoute une
-// dot dans le HTML dans la div .dots
+
+// Dots section
 
 slides.forEach ((slide, index) => {
   let dot = document.createElement('div');
@@ -40,21 +41,36 @@ slides.forEach ((slide, index) => {
 
 
 
-// Activation des boutons au clic : on écoute les clicls sur arrowRight et arrowLeft,
-// au clic on prend la focntion pour changer de +1 ou -1 slide
+// Activation des boutons au clic
 
 arrowRight.addEventListener('click', function() {
-  changeSlide(-1);
-  console.log('clic droite');
+  changeSlide(1);
 });
 
 arrowLeft.addEventListener('click', function() {
-  changeSlide(1);
-  console.log('clic gauche');
+  changeSlide(-1);
 });
 
 
+// Fontion de changement de slide
 
-//Changement de slide : on récupère les images dans la constante slides, elle change quand
-// on clique sur une des flèches : on utilise la clé "image" pour changer l'image
-// et la clé "tagLine" pour changer le texte
+function changeSlide(direction) {
+
+  let bannerDotsList = document.querySelectorAll('.dot');
+
+  bannerDotsList[currentSlide].classList.remove('dot_selected');
+
+  currentSlide += direction;
+
+  if (currentSlide < 0) {
+    currentSlide = slides.length -1;
+  } else if (currentSlide >= slides.length) {
+    currentSlide = 0;
+  }
+
+  bannerDotsList[currentSlide].classList.add('dot_selected');
+
+  bannerImage.src = `assets/images/slideshow/${slides[currentSlide].image}`;
+  bannerText.innerHTML = slides[currentSlide].tagLine;
+
+}
